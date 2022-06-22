@@ -7,6 +7,9 @@
 Makefile
 
 # Build files
-bin/*
-shared/*
-obj/*
+bin/
+shared/
+obj/
+
+# VSCode files
+.vscode/
