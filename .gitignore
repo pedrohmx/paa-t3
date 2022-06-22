@@ -1,0 +1,12 @@
+# C++ build files
+*.o
+*.d
+
+# Project files
+*.make
+Makefile
+
+# Build files
+bin/*
+shared/*
+obj/*
