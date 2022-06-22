@@ -5,6 +5,7 @@ workspace "paa-t3"
 project "t3"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++latest"
     targetdir "bin/%{cfg.buildcfg}"
 
     files { "src/**.cpp", "src/**.hpp" }
@@ -19,6 +20,7 @@ project "t3"
 project "libpaat3"
     kind "SharedLib"
     language "C++"
+    cppdialect "C++latest"
     targetdir "shared/%{cfg.buildcfg}"
 
     files { "src/**.cpp", "src/**.hpp" }
