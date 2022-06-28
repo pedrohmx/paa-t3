@@ -33,7 +33,7 @@ private:
     auto _insert(std::shared_ptr<node_t> &node, const T &value, long &count) {
         // if node is null
         if (!node) {
-            node = std::make_shared<node_t>(node_t{value});
+            node = std::make_shared<node_t>(value);
             return node;
         }
         // if it needs to travel deeper in the tree
