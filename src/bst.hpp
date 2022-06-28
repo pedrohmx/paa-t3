@@ -12,13 +12,13 @@ namespace t3 {
 template<typename T>
 class BST {
 public:
-    auto insert(const T &&value, int &count) {
+    auto insert(const T &&value, long &count) {
         return _insert(this->root, value, count);
     };
-    auto insert(const T  &value, int &count) {
+    auto insert(const T  &value, long &count) {
         return _insert(this->root, value, count);
     };
-    auto search(const T  &value, int &count) {
+    auto search(const T  &value, long &count) {
         return _search(this->root, value, count);
     };
     void in_place() {
@@ -30,7 +30,7 @@ private:
 
     std::shared_ptr<node_t> root;
 
-    auto _insert(std::shared_ptr<node_t> &node, const T &value, int &count) {
+    auto _insert(std::shared_ptr<node_t> &node, const T &value, long &count) {
         // if node is null
         if (!node) {
             node = std::make_shared<node_t>(node_t{value});
@@ -51,7 +51,7 @@ private:
         // return its node
         return node;
     }
-    auto _search(const std::shared_ptr<node_t> &node, const T &value, int &count) {
+    auto _search(const std::shared_ptr<node_t> &node, const T &value, long &count) {
         // if node is null, return null ptr
         if (!node) return node;
 
