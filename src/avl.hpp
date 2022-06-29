@@ -31,7 +31,8 @@ public:
         }
         auto res = _insert(this->root, value);
         this->balance();
-        return res;    };
+        return res;
+    };
     auto search(const T  &value) {
         return _search(this->root, value);
     };
@@ -39,6 +40,12 @@ public:
         _in_place(this->root);
         std::cout << std::endl;
     };
+    void pre_tree_view() {
+        std::cout << '@' << this->root->data << '\n';
+        _pre_tree_view(this->root->lnode, 'l',1);
+        _pre_tree_view(this->root->rnode, 'r',1);
+        std::cout << std::endl;
+    }
 private:
     using node_t = b_tree_node_t<T>;
 
@@ -94,6 +101,15 @@ private:
             _in_place(node->rnode);
         }
     };
+    void _pre_tree_view(const std::shared_ptr<node_t> &node, char prefix, int depth) {
+        if (node) {
+            for (int i = 0; i < depth; i++) std::cout << '\t';
+            std::cout << prefix << node->data << '\n';
+            _pre_tree_view(node->lnode, 'l', depth+1);
+            _pre_tree_view(node->rnode, 'r', depth+1);
+        }
+    }
+
     void balance(){/*FIXME: missing implementation*/};
 };
 
