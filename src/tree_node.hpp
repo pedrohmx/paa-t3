@@ -10,6 +10,7 @@ template<typename T>
 struct b_tree_node_t : std::enable_shared_from_this<b_tree_node_t<T>>
 {
     b_tree_node_t(const T value) : data(value){};
+    shared_ptr<b_tree_node_t<T>> get_ptr(){return this->shared_from_this();}
     
     T data;
     std::shared_ptr<b_tree_node_t<T>> parent;
