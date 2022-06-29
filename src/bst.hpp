@@ -12,14 +12,17 @@ namespace t3 {
 template<typename T>
 class BST {
 public:
-    auto insert(const T &&value, long &count) {
-        return _insert(this->root, value, count);
+    long get_insertion_cmp_count() const { return insert_cmp_count;}
+    long get_search_cmp_count() const { return search_cmp_count;}
+    void reset_search_cmp_count() { search_cmp_count = 0;}
+    auto insert(const T &&value) {
+        return _insert(this->root, value);
     };
-    auto insert(const T  &value, long &count) {
-        return _insert(this->root, value, count);
+    auto insert(const T  &value) {
+        return _insert(this->root, value);
     };
-    auto search(const T  &value, long &count) {
-        return _search(this->root, value, count);
+    auto search(const T  &value) {
+        return _search(this->root, value);
     };
     void in_place() {
         _in_place(this->root);
@@ -29,45 +32,47 @@ private:
     using node_t = b_tree_node_t<T>;
 
     std::shared_ptr<node_t> root;
+    long insert_cmp_count = 0;
+    long search_cmp_count = 0;
 
-    auto _insert(std::shared_ptr<node_t> &node, const T &value, long &count) {
+    auto _insert(std::shared_ptr<node_t> &node, const T &value) {
         // if node is null
         if (!node) {
             node = std::make_shared<node_t>(value);
             return node;
         }
         // if it needs to travel deeper in the tree
-        count++;
+        insert_cmp_count++;
         if (value < node->data) {
             // Insert into left sub tree
-            return _insert(node->lnode, value, count);
+            return _insert(node->lnode, value);
         }
-        count++;
+        insert_cmp_count++;
         if (value > node->data) {
             // Insert into rigth sub tree
-            return _insert(node->rnode, value, count);
+            return _insert(node->rnode, value);
         }
         // if element is already in the tree
         // return its node
         return node;
     }
-    auto _search(const std::shared_ptr<node_t> &node, const T &value, long &count) {
+    auto _search(const std::shared_ptr<node_t> &node, const T &value) {
         // if node is null, return null ptr
         if (!node) return node;
 
         // if its the node we are looking for
-        count++;
+        search_cmp_count++;
         if ( node->data == value) {
             return node;
         }
 
-        count++;
+        search_cmp_count++;
         if ( value < node->data ) {
             // if its less than
-            return _search(node->lnode, value, count);
+            return _search(node->lnode, value);
         } else {
             // if its greater than
-            return _search(node->rnode, value, count);
+            return _search(node->rnode, value);
         }
 
     }
