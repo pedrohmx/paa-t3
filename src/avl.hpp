@@ -46,7 +46,7 @@ private:
     long insert_cmp_count = 0;
     long search_cmp_count = 0;
 
-    auto _insert(std::shared_ptr<node_t> &node, std::shared_ptr<node_t> &parent, const T &value) {
+    auto _insert(std::shared_ptr<node_t> &node, const T &value) {
         // if node is null
         if (!node) {
             node = std::make_shared<node_t>(node_t{value});
