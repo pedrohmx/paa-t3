@@ -7,9 +7,14 @@ namespace paa {
 namespace t3 {
 
 template<typename T>
-struct b_tree_node_t
+struct b_tree_node_t : std::enable_shared_from_this<b_tree_node_t<T>>
 {
     b_tree_node_t(const T value) : data(value){};
+    
+    T data;
+    std::shared_ptr<b_tree_node_t<T>> parent;
+    std::shared_ptr<b_tree_node_t<T>> lnode, rnode;
+    
     long height() const {
         long lh = (!lnode) ? 0 : lnode->height();
         long rh = (!rnode) ? 0 : rnode->height();
@@ -20,9 +25,25 @@ struct b_tree_node_t
         long rh = (!rnode) ? 0 : rnode->height();
         return rh - lh;
     };
-    T data;
-    std::shared_ptr<b_tree_node_t<T>> parent;
-    std::shared_ptr<b_tree_node_t<T>> lnode, rnode;
+    shared_ptr<b_tree_node_t<T>> rotate_right(){
+        auto X = this->shared_from_this();
+        auto Y = X->lnode;
+        // right rotation
+        X->lnode = Y->rnode;
+        Y->rnode = X;
+        // return new node at startind spot
+        return Y;
+    };
+    shared_ptr<b_tree_node_t<T>> rotate_left(){
+        auto X = this->shared_from_this();
+        auto Y = X->rnode;
+        // left rotation
+        X->rnode = Y->lnode;
+        Y->lnode = X;
+        // return new node at startind spot
+        return Y;
+    };
+
 };
 
 }} // namespace paa::t3
