@@ -10,7 +10,7 @@ template<typename T>
 struct b_tree_node_t : std::enable_shared_from_this<b_tree_node_t<T>>
 {
     b_tree_node_t(const T value) : data(value){};
-    shared_ptr<b_tree_node_t<T>> get_ptr(){return this->shared_from_this();}
+    std::shared_ptr<b_tree_node_t<T>> get_ptr(){return this->shared_from_this();}
     
     T data;
     std::shared_ptr<b_tree_node_t<T>> parent;
@@ -26,7 +26,7 @@ struct b_tree_node_t : std::enable_shared_from_this<b_tree_node_t<T>>
         long rh = (!rnode) ? 0 : rnode->height();
         return rh - lh;
     };
-    shared_ptr<b_tree_node_t<T>> rotate_right(){
+    std::shared_ptr<b_tree_node_t<T>> rotate_right(){
         auto X = this->shared_from_this();
         auto Y = X->lnode;
         // right rotation
@@ -35,7 +35,7 @@ struct b_tree_node_t : std::enable_shared_from_this<b_tree_node_t<T>>
         // return new node at startind spot
         return Y;
     };
-    shared_ptr<b_tree_node_t<T>> rotate_left(){
+    std::shared_ptr<b_tree_node_t<T>> rotate_left(){
         auto X = this->shared_from_this();
         auto Y = X->rnode;
         // left rotation
