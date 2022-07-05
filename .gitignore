@@ -6,6 +6,9 @@
 *.make
 Makefile
 
+# Data files
+data/
+
 # Build files
 bin/
 shared/
