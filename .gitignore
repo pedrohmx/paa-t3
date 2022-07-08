@@ -8,6 +8,7 @@ Makefile
 
 # Data files
 data/
+*.csv
 
 # Build files
 bin/
