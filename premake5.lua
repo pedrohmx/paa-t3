@@ -7,9 +7,8 @@ project "t3"
     language "C++"
     cppdialect "C++latest"
     targetdir "bin/%{cfg.buildcfg}"
-
+    includedirs { "include" }
     files { "src/**.cpp", "src/**.hpp" }
-
     filter "configurations:debug"
         defines { "DEBUG" }
         symbols "On"
@@ -17,17 +16,15 @@ project "t3"
         defines { "NDEBUG" }
         optimize "On"
 
-project "libpaat3"
-    kind "SharedLib"
-    language "C++"
-    cppdialect "C++latest"
-    targetdir "shared/%{cfg.buildcfg}"
-
-    files { "src/**.cpp", "src/**.hpp" }
-
-    filter "configurations:debug"
-        defines { "DEBUG" }
-        symbols "On"
-    filter "configurations:release"
-        defines { "NDEBUG" }
-        optimize "On"
+-- project "libpaat3"
+--     kind "SharedLib"
+--     language "C++"
+--     cppdialect "C++latest"
+--     targetdir "shared/%{cfg.buildcfg}"
+--     files { "src/**.cpp", "src/**.hpp" }
+--     filter "configurations:debug"
+--         defines { "DEBUG" }
+--         symbols "On"
+--     filter "configurations:release"
+--         defines { "NDEBUG" }
+--         optimize "On"
