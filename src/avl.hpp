@@ -51,15 +51,12 @@ private:
         if (value < node->data) {
             // Insert into left sub tree
             node->lnode = _insert(node->lnode, value);
+        } else if (value > node->data) {
+            // Insert into rigth sub tree
+            node->rnode = _insert(node->rnode, value);
         } else {
-            insert_cmp_count++;
-            if (value > node->data) {
-                // Insert into rigth sub tree
-                node->rnode = _insert(node->rnode, value);
-            } else {
-                // if element is already in the tree
-                return node;
-            }
+            // if element is already in the tree
+            return node;
         }
 
         { // update heights
