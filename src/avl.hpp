@@ -9,31 +9,18 @@
 namespace paa {
 namespace t3 {
 
-template<typename T>
 class AVL {
 public:
     long get_insertion_cmp_count() const { return insert_cmp_count;}
     long get_search_cmp_count() const { return search_cmp_count;}
     void reset_search_cmp_count() { search_cmp_count = 0;}
-    auto insert(const T &&value) {
-        if (!root){
-            root = std::make_shared<node_t>(node_t{value});
-            return root;
-        }
-        auto res = _insert(this->root, value);
-        this->balance();
-        return res;
+    auto insert(const int &&value) {
+        this->root = _insert(this->root, value);
     };
-    auto insert(const T  &value) {
-        if (!root){
-            root = std::make_shared<node_t>(node_t{value});
-            return root;
-        }
-        auto res = _insert(this->root, value);
-        this->balance();
-        return res;
+    auto insert(const int  &value) {
+        this->root = _insert(this->root, value);
     };
-    auto search(const T  &value) {
+    auto search(const int  &value) {
         return _search(this->root, value);
     };
     void in_place() {
@@ -41,40 +28,71 @@ public:
         std::cout << std::endl;
     };
     void pre_tree_view() {
-        std::cout << '@' << this->root->data << '\n';
+        std::cout << '@' << this->root->data << 'h' << this->root->height << 'b' << this->root->get_balance()  << '\n';
         _pre_tree_view(this->root->lnode, 'l',1);
         _pre_tree_view(this->root->rnode, 'r',1);
         std::cout << std::endl;
     }
+    auto get_root() {return this->root;}
 private:
-    using node_t = b_tree_node_t<T>;
-
-    std::shared_ptr<node_t> root;
+    node_t * root = nullptr;
     long insert_cmp_count = 0;
     long search_cmp_count = 0;
 
-    auto _insert(std::shared_ptr<node_t> &node, const T &value) {
+    node_t * _insert(node_t * node, const int &value) {
         // if node is null
         if (!node) {
-            node = std::make_shared<node_t>(node_t{value});
-            return node;
+            return new node_t(value);
+            //node = std::make_shared<node_t>(node_t{value});
+            //return node;
         }
         // if it needs to travel deeper in the tree
         insert_cmp_count++;
         if (value < node->data) {
             // Insert into left sub tree
-            return _insert(node->lnode, value);
+            node->lnode = _insert(node->lnode, value);
+        } else {
+            insert_cmp_count++;
+            if (value > node->data) {
+                // Insert into rigth sub tree
+                node->rnode = _insert(node->rnode, value);
+            } else {
+                // if element is already in the tree
+                return node;
+            }
         }
-        insert_cmp_count++;
-        if (value > node->data) {
-            // Insert into rigth sub tree
-            return _insert(node->rnode, value);
+
+        { // update heights
+            long lh = !(node->lnode) ? 0 : node->lnode->height;
+            long rh = !(node->rnode) ? 0 : node->rnode->height;
+            node->height = 1 + ((lh > rh) ? lh : rh);
         }
-        // if element is already in the tree
-        // return its node
+
+        long balance = node->get_balance();
+        if (balance >  1) {
+            if (value < node->lnode->data) {
+                //std::cout << "caso 1" << std::endl;
+                return t3::rotate_right(node);
+            } else if (value > node->lnode->data) {
+                //std::cout << "caso 2" << std::endl;
+                node->lnode = rotate_left(node->lnode);
+                return t3::rotate_right(node);
+            }
+        }
+        if (balance < -1) {
+            if (value > node->rnode->data) {
+                //std::cout << "caso 3" << std::endl;
+                return t3::rotate_left(node);
+            } else if (value < node->rnode->data) {
+                //std::cout << "caso 4" << std::endl;
+                node->rnode = t3::rotate_right(node->rnode);
+                //std::cout << node << "---" << node->rnode << std::endl;
+                return t3::rotate_left(node);
+            }
+        }
         return node;
     }
-    auto _search(const std::shared_ptr<node_t> &node, const T &value) {
+    node_t * _search(node_t * node, const int &value) {
         // if node is null, return null ptr
         if (!node) return node;
 
@@ -94,23 +112,21 @@ private:
         }
 
     }
-    void _in_place(const std::shared_ptr<node_t> &node) {
+    void _in_place(node_t * node) {
         if (node) {
             _in_place(node->lnode);
             std::cout << node->data << " ";
             _in_place(node->rnode);
         }
     };
-    void _pre_tree_view(const std::shared_ptr<node_t> &node, char prefix, int depth) {
+    void _pre_tree_view(node_t * node, char prefix, int depth) {
         if (node) {
             for (int i = 0; i < depth; i++) std::cout << '\t';
-            std::cout << prefix << node->data << '\n';
+            std::cout << prefix << node->data << 'h' << node->height << 'b' << node->get_balance() << '\n';
             _pre_tree_view(node->lnode, 'l', depth+1);
             _pre_tree_view(node->rnode, 'r', depth+1);
         }
     }
-
-    void balance(){/*FIXME: missing implementation*/};
 };
 
 }} // namespace paa::t3
