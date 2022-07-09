@@ -130,15 +130,15 @@ auto main(int argc, char *argv[]) -> int {
         std::chrono::duration<double, std::milli> avl_query_span = avl_query_t2 - avl_query_t1;
 
         // "BST_BUILD_T | BST_BUILD_C | BST_QUERY_T | BST_QUERY_C | AVL_BUILD_T | AVL_BUILD_C | AVL_QUERY_T | AVL_QUERY_C"
-        cout         << bst_build_span
-            << " | " << bst.get_insertion_cmp_count()
-            << " | " << bst_query_span
-            << " | " << bst.get_search_cmp_count()
-            << " | " << avl_build_span
-            << " | " << avl.get_insertion_cmp_count()
-            << " | " << avl_query_span
-            << " | " << avl.get_search_cmp_count()
-            << endl;
+        // cout         << bst_build_span
+        //     << " | " << bst.get_insertion_cmp_count()
+        //     << " | " << bst_query_span
+        //     << " | " << bst.get_search_cmp_count()
+        //     << " | " << avl_build_span
+        //     << " | " << avl.get_insertion_cmp_count()
+        //     << " | " << avl_query_span
+        //     << " | " << avl.get_search_cmp_count()
+        //     << endl;
 
         ofs_output   << bst_build_span
             << " | " << bst.get_insertion_cmp_count()
